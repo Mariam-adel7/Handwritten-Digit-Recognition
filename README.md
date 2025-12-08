@@ -1,7 +1,8 @@
 # Handwritten Digit Recognition
 
 ## 🧠 Project Overview  
-This project implements a handwritten-digit recognition system (digits 0–9) using machine learning and deep learning techniques. The model is trained on the MNIST dataset, a widely used benchmark for handwritten digit classification.  
+This project implements a handwritten-digit recognition system (digits 0–9) using machine learning and deep learning techniques. The model is trained on the DIDA dataset, a widely used benchmark for handwritten digit classification. 
+Source: https://didadataset.github.io/DIDA/
 
 The project includes:  
 - Data preprocessing (`pre_processing.py`)  
