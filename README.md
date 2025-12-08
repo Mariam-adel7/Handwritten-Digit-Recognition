@@ -1,13 +1,26 @@
 # Handwritten Digit Recognition
 
 ## 🧠 Project Overview  
-This project implements a handwritten-digit recognition system (digits 0–9) using deep learning. The model is trained on the MNIST dataset — a widely used benchmark dataset for handwritten digit classification.  
+This project implements a handwritten-digit recognition system (digits 0–9) using machine learning and deep learning techniques. The model is trained on the MNIST dataset, a widely used benchmark for handwritten digit classification.  
 
 The project includes:  
-- Data loading and preprocessing  
-- Model architecture and training using a Convolutional Neural Network (CNN)  
-- Evaluation on a test set  
-- Optionally — inference for new handwritten images  
+- Data preprocessing (`pre_processing.py`)  
+- Model training using various methods:  
+  - Linear Regression (`Linear_regression.py`)  
+  - Logistic Regression (`Logistic_regression.py`)  
+  - Neural Network (`Neural_network.py`)  
+- Model evaluation and comparison (`Comparative_Analysis.py`)  
+- Cross-validation (`Cross_validation.py`)  
 
 ## 📁 Project Structure  
 
+Handwritten-Digit-Recognition/
+├── Comparative_Analysis.py # Compare different models' performance
+├── Cross_validation.py # Cross-validation implementation
+├── Linear_regression.py # Linear Regression model
+├── Logistic_regression.py # Logistic Regression model
+├── Neural_network.py # Neural Network model
+├── pre_processing.py # Data preprocessing script
+├── pyvenv.cfg # Virtual environment config
+├── README.md # This file
+└── requirements.txt # Python dependencies (create if not present)
