@@ -15,6 +15,7 @@ The project includes:
 ## 📁 Project Structure  
 
 Handwritten-Digit-Recognition/
+
 ├── Comparative_Analysis.py # Compare different models' performance
 
 ├── Cross_validation.py # Cross-validation implementation
@@ -24,7 +25,11 @@ Handwritten-Digit-Recognition/
 ├── Logistic_regression.py # Logistic Regression model
 
 ├── Neural_network.py # Neural Network model
+
 ├── pre_processing.py # Data preprocessing script
+
 ├── pyvenv.cfg # Virtual environment config
+
 ├── README.md # This file
+
 └── requirements.txt # Python dependencies (create if not present)
