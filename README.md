@@ -16,9 +16,13 @@ The project includes:
 
 Handwritten-Digit-Recognition/
 ├── Comparative_Analysis.py # Compare different models' performance
+
 ├── Cross_validation.py # Cross-validation implementation
+
 ├── Linear_regression.py # Linear Regression model
+
 ├── Logistic_regression.py # Logistic Regression model
+
 ├── Neural_network.py # Neural Network model
 ├── pre_processing.py # Data preprocessing script
 ├── pyvenv.cfg # Virtual environment config
