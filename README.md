@@ -7,7 +7,7 @@ Source: https://didadataset.github.io/DIDA/
 The project includes:  
 - Data preprocessing (`pre_processing.py`)  
 - Model training using various methods:  
-  - Linear Regression (`Linear_regression.py`)  
+  - One vs all Linear Regression (`Linear_regression.py`)  
   - Logistic Regression (`Logistic_regression.py`)  
   - Neural Network (`Neural_network.py`)  
 - Model evaluation and comparison (`Comparative_Analysis.py`)  
@@ -21,7 +21,7 @@ Handwritten-Digit-Recognition/
 
 ├── Cross_validation.py # Cross-validation implementation
 
-├── Linear_regression.py # Linear Regression model
+├── Linear_regression.py # OVA Linear Regression model
 
 ├── Logistic_regression.py # Logistic Regression model
 
