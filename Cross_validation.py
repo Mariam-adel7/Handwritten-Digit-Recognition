@@ -8,11 +8,6 @@ import matplotlib
 matplotlib.use('TkAgg')
 import matplotlib.pyplot as plt
 
-X = X.astype(np.float32)
-if Y.ndim > 1:
-    y = np.argmax(Y, axis=1)
-else:
-    y = Y.copy()
 
 class LinearRegressionOvA:
     def __init__(self):
@@ -30,15 +25,9 @@ class LinearRegressionOvA:
         preds = np.column_stack([m.predict(X) for m in self.models])
         return np.argmax(preds, axis=1)
 
-
 models = {
     "Neural Network (MLP)": MLPClassifier(
-        hidden_layer_sizes=(256, 128, 64),
-        activation='relu',
-        solver='adam',
-        learning_rate_init=0.001,
-        max_iter=50,
-        random_state=42
+        hidden_layer_sizes=(256, 128, 64), activation='relu', solver='adam', learning_rate_init=0.001, max_iter=40, random_state=42
     ),
     "Logistic Regression": LogisticRegression(
         solver='lbfgs', multi_class='multinomial', max_iter=500, random_state=42
@@ -46,8 +35,7 @@ models = {
     "Linear Regression (OvA)": LinearRegressionOvA()
 }
 
-k = 5
-skf = StratifiedKFold(n_splits=k, shuffle=True, random_state=42)
+skf = StratifiedKFold(n_splits=5, shuffle=True, random_state=42)
 
 results = {}
 cv_predictions = {}
@@ -58,11 +46,11 @@ for name, model in models.items():
     print("===================================")
 
     fold_scores = []
-    preds_all = np.zeros_like(y)
+    preds_all = np.zeros_like(Y)
 
-    for fold, (train_idx, test_idx) in enumerate(skf.split(X, y)):
+    for fold, (train_idx, test_idx) in enumerate(skf.split(X, Y)):
         X_train, X_test = X[train_idx], X[test_idx]
-        y_train, y_test = y[train_idx], y[test_idx]
+        y_train, y_test = Y[train_idx], Y[test_idx]
 
         model.fit(X_train, y_train)
         y_pred = model.predict(X_test)
@@ -71,12 +59,12 @@ for name, model in models.items():
         acc = (y_pred == y_test).mean()
         fold_scores.append(acc)
 
-        print(f"Fold {fold+1} Accuracy: {acc:.4f}")
+        print(f"Fold {fold+1} Accuracy: {acc*100:.2f} %")
 
     results[name] = np.array(fold_scores)
     cv_predictions[name] = preds_all
 
-    print("\nClassification Report (aggregated on all samples):")
+    print("\nClassification Report: ")
     print(classification_report(y, preds_all))
 
 plt.figure(figsize=(7, 5))
