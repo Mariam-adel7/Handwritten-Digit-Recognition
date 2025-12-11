@@ -15,8 +15,7 @@ model = MLPClassifier(
     solver='adam',
     learning_rate_init=0.001,
     max_iter=40,
-    random_state=42,
-    verbose=True
+    random_state=40
 )
 
 model.fit(X_train, y_train)
@@ -37,4 +36,5 @@ plt.imshow(img, cmap='gray')
 plt.title(f"Predicted: {y_pred[idx]} | True: {y_test[idx]}")
 plt.axis('off')
 plt.show()
+
 
