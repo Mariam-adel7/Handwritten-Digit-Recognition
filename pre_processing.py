@@ -2,6 +2,7 @@ import os
 import numpy as np
 from PIL import Image
 from sklearn.model_selection import train_test_split
+from sklearn.preprocessing import OneHotEncoder
 
 data_dir = "images"
 image_size = (28, 28)
@@ -24,12 +25,8 @@ for digit in range(10):
 X = np.array(X)
 Y = np.array(Y)
 
-def one_hot_encode(y, num_classes=10):
-    encoded = np.zeros((y.shape[0], num_classes))
-    encoded[np.arange(y.shape[0]), y] = 1
-    return encoded
-
-Y_encoded= one_hot_encode(Y)
+ohe = OneHotEncoder()
+Y_encoded = ohe.fit_transform(Y.reshape(-1,1)).toarray()
 
 X_train, X_test, y_train, y_test, y_train_labels, y_test_labels = train_test_split(
     X, Y_encoded, Y, test_size=0.2, random_state=50)
