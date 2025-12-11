@@ -24,14 +24,12 @@ for digit in range(10):
 X = np.array(X)
 Y = np.array(Y)
 
-
 def one_hot_encode(y, num_classes=10):
     encoded = np.zeros((y.shape[0], num_classes))
     encoded[np.arange(y.shape[0]), y] = 1
     return encoded
 
+Y_encoded= one_hot_encode(Y)
 
-Y_encoded = one_hot_encode(Y)
-
-X_train, X_test, Y_train, Y_test, y_train_labels, y_test_labels = train_test_split(
-    X, Y_encoded, Y, test_size=0.2, random_state=42)
+X_train, X_test, y_train, y_test, y_train_labels, y_test_labels = train_test_split(
+    X, Y_encoded, Y, test_size=0.2, random_state=50)
