@@ -29,8 +29,6 @@ Handwritten-Digit-Recognition/
 
 ├── pre_processing.py # Data preprocessing script
 
-├── pyvenv.cfg # Virtual environment config
-
 ├── 10000.rar #The dataset which is digits images
 
 └── requirements.txt # Python dependencies (create if not present)
