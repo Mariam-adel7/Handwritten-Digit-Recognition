@@ -1,15 +1,18 @@
 import numpy as np
-from pre_processing import X, Y
+import pandas as pd
+from preprocessing import X_train, X_test, y_train, y_test
 from sklearn.model_selection import StratifiedKFold
-from sklearn.metrics import classification_report
+from sklearn.metrics import precision_recall_fscore_support, accuracy_score
 from sklearn.neural_network import MLPClassifier
 from sklearn.linear_model import LogisticRegression, LinearRegression
-import matplotlib
-matplotlib.use('TkAgg')
+from sklearn.naive_bayes import GaussianNB
 import matplotlib.pyplot as plt
+import seaborn as sns
 
+X = np.vstack((X_train, X_test))
+y = np.concatenate((y_train, y_test))
 
-class LinearRegressionOvA:
+class OVA_LinearRegression:
     def __init__(self):
         self.models = []
 
@@ -25,60 +28,99 @@ class LinearRegressionOvA:
         preds = np.column_stack([m.predict(X) for m in self.models])
         return np.argmax(preds, axis=1)
 
+
 models = {
-    "Neural Network (MLP)": MLPClassifier(
-        hidden_layer_sizes=(256, 128, 64), activation='relu', solver='adam', learning_rate_init=0.001, max_iter=40, random_state=42
+    "MLP Neural Network": MLPClassifier(
+    hidden_layer_sizes=(128,64), 
+    activation='relu',
+    solver='adam',
+    alpha=0.001,
+    max_iter=1000, 
+    random_state=42,
+    early_stopping=True
     ),
-    "Logistic Regression": LogisticRegression(
-        solver='lbfgs', multi_class='multinomial', max_iter=500, random_state=42
-    ),
-    "Linear Regression (OvA)": LinearRegressionOvA()
+    "Logistic Regression": LogisticRegression(solver='lbfgs', max_iter=1000, random_state=42),
+    "OVA Linear Regression": OVA_LinearRegression(), 
+    "Naive Bayes": GaussianNB()
 }
 
-skf = StratifiedKFold(n_splits=5, shuffle=True, random_state=42)
 
-results = {}
-cv_predictions = {}
+skf = StratifiedKFold(n_splits=5, shuffle=True, random_state=42)
+results = []
 
 for name, model in models.items():
-    print("\n===================================")
-    print(f"Training Model: {name}")
-    print("===================================")
+    metrics_folds = []
+    for train_idx, test_idx in skf.split(X, y):
+        model.fit(X[train_idx], y[train_idx])
+        y_pred = model.predict(X[test_idx])
+        
+        acc = accuracy_score(y[test_idx], y_pred)
+        prec, rec, f1, _ = precision_recall_fscore_support(
+            y[test_idx], y_pred, average='macro', zero_division=0
+        )
+        metrics_folds.append([acc, prec, rec, f1])
+    
+    metrics_array = np.array(metrics_folds)
+    means = metrics_array.mean(axis=0)
+    stds = metrics_array.std(axis=0)
 
-    fold_scores = []
-    preds_all = np.zeros_like(Y)
+    best_fold_idx = np.argmax(metrics_array[:, 0])
+    best_fold_metrics = metrics_array[best_fold_idx]
+    print(f"Best Fold: {best_fold_idx+1} for {name} -> Accuracy: {best_fold_metrics[0]*100:.2f}%, Precision: {best_fold_metrics[1]*100:.2f}%, Recall: {best_fold_metrics[2]*100:.2f}%, F1: {best_fold_metrics[3]*100:.2f}%")
+    
+    results.append({
+        "Model": name,
+        "Accuracy": means[0], "Acc_Std": stds[0],
+        "Precision": means[1], "Prec_Std": stds[1],
+        "Recall": means[2], "Rec_Std": stds[2],
+        "F1-Score": means[3], "F1_Std": stds[3]
+    })
 
-    for fold, (train_idx, test_idx) in enumerate(skf.split(X, Y)):
-        X_train, X_test = X[train_idx], X[test_idx]
-        y_train, y_test = Y[train_idx], Y[test_idx]
 
-        model.fit(X_train, y_train)
-        y_pred = model.predict(X_test)
+df = pd.DataFrame(results)
 
-        preds_all[test_idx] = y_pred
-        acc = (y_pred == y_test).mean()
-        fold_scores.append(acc)
+display_df = pd.DataFrame()
+display_df["Model"] = df["Model"]
+display_df["Accuracy (Mean ± Std)"] = df.apply(
+    lambda r: f"{r['Accuracy']*100:.2f}% ± {r['Acc_Std']*100:.2f}%", axis=1
+)
+display_df["Precision"] = df.apply(
+    lambda r: f"{r['Precision']*100:.2f}% ± {r['Prec_Std']*100:.2f}%", axis=1
+)
+display_df["Recall"] = df.apply(
+    lambda r: f"{r['Recall']*100:.2f}% ± {r['Rec_Std']*100:.2f}%", axis=1
+)
+display_df["F1-Score"] = df.apply(
+    lambda r: f"{r['F1-Score']*100:.2f}% ± {r['F1_Std']*100:.2f}%", axis=1
+)
 
-        print(f"Fold {fold+1} Accuracy: {acc*100:.2f} %")
+print("\n" + "="*100)
+print(f"{'STATISTICAL COMPARATIVE ANALYSIS REPORT':^100}")
+print("="*100)
+print(display_df.to_string(index=False, justify='center', col_space=20))
+print("="*100)
 
-    results[name] = np.array(fold_scores)
-    cv_predictions[name] = preds_all
+plt.figure(figsize=(10, 6))
+sns.set_style("whitegrid")
 
-    print("\nClassification Report: ")
-    print(classification_report(y, preds_all))
+sns.barplot(
+    x="Model",
+    y="Accuracy",
+    data=df,
+    palette="viridis",
+    ci=None  
+)
 
-plt.figure(figsize=(7, 5))
-avg_acc = [results[m].mean() for m in results]
-plt.bar(list(results.keys()), avg_acc)
-plt.title("Average Accuracy per Model (5-Fold Cross-Validation)")
-plt.ylabel("Accuracy")
-plt.ylim(0, 1)
+plt.errorbar(
+    x=np.arange(len(df)),
+    y=df["Accuracy"],
+    yerr=df["Acc_Std"],
+    fmt='none',
+    c='black',
+    capsize=5
+)
+
+plt.title("Model Accuracy: Mean & Standard Deviation")
+plt.ylabel("Accuracy Score")
+plt.ylim(0, 1.0)
 plt.show()
-
-plt.figure(figsize=(7, 5))
-plt.boxplot(list(results.values()), labels=list(results.keys()))
-plt.title("Performance Distribution Across Folds")
-plt.ylabel("Accuracy")
-plt.show()
-
-print("\nAll Models Evaluated Successfully!")
