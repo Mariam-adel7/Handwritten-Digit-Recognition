@@ -4,7 +4,6 @@ import pandas as pd
 from preprocessing import X_train, X_test, y_train, y_test
 from sklearn.metrics import accuracy_score, precision_score, recall_score, f1_score, confusion_matrix
 from sklearn.neural_network import MLPClassifier
-from sklearn.naive_bayes import GaussianNB
 from sklearn.linear_model import LogisticRegression, LinearRegression
 import matplotlib
 matplotlib.use('TkAgg')
@@ -75,10 +74,7 @@ models = [
      LogisticRegression(max_iter=1000, solver="lbfgs", random_state=42)),
     
     ("Linear Regression (OvA)",
-     OVA_LinearRegression()),
-
-    ("Naive bayes",
-     GaussianNB())
+     OVA_LinearRegression())
 ]
 
 
@@ -129,3 +125,4 @@ for index, row in df_results.iterrows():
     plt.xlabel("Predicted")
     plt.ylabel("Actual")
     plt.show()
+
