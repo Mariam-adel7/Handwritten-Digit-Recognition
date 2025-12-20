@@ -31,8 +31,6 @@ Handwritten-Digit-Recognition/
 
 ├── pyvenv.cfg # Virtual environment config
 
-├── README.md # This file
-
 ├── 10000.rar #The dataset which is digits images
 
 └── requirements.txt # Python dependencies (create if not present)
