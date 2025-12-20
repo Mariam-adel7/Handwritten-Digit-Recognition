@@ -1,5 +1,5 @@
 import numpy as np
-from pre_processing import X_train, X_test, y_train_labels, y_test_labels
+from preprocessing import X_train, X_test, y_train, y_test, pca
 from sklearn.linear_model import LinearRegression
 from sklearn.metrics import accuracy_score
 import matplotlib
@@ -7,7 +7,8 @@ matplotlib.use('TkAgg') #for backend
 import matplotlib.pyplot as plt
 import random
 
-print("Training Linear Regression (OvA)...")
+print("Training Linear Regression OVA...")
+
 
 class OVA_LinearRegression:
     def __init__(self):
@@ -29,21 +30,23 @@ class OVA_LinearRegression:
 
 model = OVA_LinearRegression()
 
-model.fit(X_train, y_train_labels)
+model.fit(X_train, y_train)
 
 y_pred = model.predict(X_test)
-acc = accuracy_score(y_test_labels, y_pred)
+acc = accuracy_score(y_test, y_pred)
 
 idx = random.randint(0, X_test.shape[0] - 1)
-img = X_test[idx].reshape(28, 28)
+img = X_test[idx]
+
+img_original = pca.inverse_transform(img).reshape(28, 28)
 
 print("\n==============================")
 print(f"Linear Regression (OvA) Test Accuracy: {acc*100:.2f}%")
 print("==============================\n")
-print(f"Predicted: {y_pred[idx]} | True: {y_test_labels[idx]}")
+print(f"Predicted: {y_pred[idx]} | True: {y_test[idx]}")
 
 
-plt.imshow(img, cmap='gray')
-plt.title(f"Predicted: {y_pred[idx]} | True: {y_test_labels[idx]}")
+plt.imshow(img_original, cmap='gray')
+plt.title(f"Predicted: {y_pred[idx]} | True: {y_test[idx]}")
 plt.axis('off')
 plt.show()
