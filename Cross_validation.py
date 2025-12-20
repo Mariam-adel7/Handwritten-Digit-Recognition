@@ -5,7 +5,6 @@ from sklearn.model_selection import StratifiedKFold
 from sklearn.metrics import precision_recall_fscore_support, accuracy_score
 from sklearn.neural_network import MLPClassifier
 from sklearn.linear_model import LogisticRegression, LinearRegression
-from sklearn.naive_bayes import GaussianNB
 import matplotlib.pyplot as plt
 import seaborn as sns
 
@@ -40,8 +39,7 @@ models = {
     early_stopping=True
     ),
     "Logistic Regression": LogisticRegression(solver='lbfgs', max_iter=1000, random_state=42),
-    "OVA Linear Regression": OVA_LinearRegression(), 
-    "Naive Bayes": GaussianNB()
+    "OVA Linear Regression": OVA_LinearRegression()
 }
 
 
@@ -124,3 +122,4 @@ plt.title("Model Accuracy: Mean & Standard Deviation")
 plt.ylabel("Accuracy Score")
 plt.ylim(0, 1.0)
 plt.show()
+
