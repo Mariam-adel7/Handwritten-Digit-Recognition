@@ -3,7 +3,6 @@ import numpy as np
 from PIL import Image
 from sklearn.model_selection import train_test_split
 from sklearn.decomposition import PCA
-import random
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 data_dir = os.path.join(BASE_DIR, "images")
@@ -32,6 +31,7 @@ X_train, X_test, y_train, y_test = train_test_split(
 pca = PCA(n_components=0.95)
 X_train = pca.fit_transform(X_train)
 X_test = pca.transform(X_test)
+
 
 
 
