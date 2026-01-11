@@ -9,7 +9,6 @@ print("Training Neural Network...")
 model = MLPClassifier(
     hidden_layer_sizes=(256,128,64),  
     activation='relu',
-    solver='adam',
     learning_rate='adaptive',
     learning_rate_init=0.001,        
     max_iter=1500,                     
@@ -33,3 +32,4 @@ plt.imshow(img_original, cmap='gray')
 plt.title(f"Predicted: {y_pred[idx]} | True: {y_test[idx]}")
 plt.axis('off')
 plt.show()
+
