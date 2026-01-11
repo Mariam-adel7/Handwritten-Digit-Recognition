@@ -28,6 +28,7 @@ class OVA_LinearRegression:
         preds = np.column_stack([m.predict(X) for m in self.models])
         return np.argmax(preds, axis=1)
 
+
 def evaluate_model(model, X_train, y_train, X_test, y_test, model_name="Model"):
     print(f"\n================== {model_name} ==================")
     
@@ -62,19 +63,23 @@ def evaluate_model(model, X_train, y_train, X_test, y_test, model_name="Model"):
 
 models = [
     ("MLP Neural Network",
-     MLPClassifier(hidden_layer_sizes=(128,64), 
+    MLPClassifier(
+    hidden_layer_sizes=(256,128,64),  
     activation='relu',
     solver='adam',
-    alpha=0.001,
-    max_iter=1000, 
+    learning_rate='adaptive',
+    learning_rate_init=0.001,         
+    max_iter=1500,                     
+    batch_size=64,                     
     random_state=42,
-    early_stopping=True)),
+    early_stopping=True)
+    ),
     
     ("Logistic Regression",
      LogisticRegression(max_iter=1000, solver="lbfgs", random_state=42)),
     
     ("Linear Regression (OvA)",
-     OVA_LinearRegression())
+     OVA_LinearRegression()),
 ]
 
 
@@ -125,4 +130,3 @@ for index, row in df_results.iterrows():
     plt.xlabel("Predicted")
     plt.ylabel("Actual")
     plt.show()
-
