@@ -28,9 +28,10 @@ X_train, X_test, y_train, y_test = train_test_split(
     X, y, test_size=0.2, random_state=42, stratify=y
 )
 
-pca = PCA(n_components=0.95)
+pca = PCA(n_components=300)
 X_train = pca.fit_transform(X_train)
 X_test = pca.transform(X_test)
+
 
 
 
