@@ -10,7 +10,6 @@ matplotlib.use('TkAgg')
 import matplotlib.pyplot as plt
 import seaborn as sns
 
-
 class OVA_LinearRegression:
     def __init__(self):
         self.models = []
@@ -27,7 +26,6 @@ class OVA_LinearRegression:
     def predict(self, X):
         preds = np.column_stack([m.predict(X) for m in self.models])
         return np.argmax(preds, axis=1)
-
 
 def evaluate_model(model, X_train, y_train, X_test, y_test, model_name="Model"):
     print(f"\n================== {model_name} ==================")
@@ -60,33 +58,27 @@ def evaluate_model(model, X_train, y_train, X_test, y_test, model_name="Model"):
         "Confusion Matrix": cm
     }
 
-
 models = [
-    ("MLP Neural Network",
-    MLPClassifier(
-    hidden_layer_sizes=(256,128,64),  
+    ( "MLP Neural Network", MLPClassifier(
+    hidden_layer_sizes=(256,128,64),
     activation='relu',
-    solver='adam',
     learning_rate='adaptive',
-    learning_rate_init=0.001,         
-    max_iter=1500,                     
-    batch_size=64,                     
+    learning_rate_init=0.001,
+    alpha=0.001,
+    max_iter=1500,
+    batch_size=32,
     random_state=42,
-    early_stopping=True)
-    ),
-    
+    early_stopping=True
+    )),
     ("Logistic Regression",
-     LogisticRegression(max_iter=1000, solver="lbfgs", random_state=42)),
-    
+     LogisticRegression(max_iter=2000, random_state=42)),
     ("Linear Regression (OvA)",
      OVA_LinearRegression()),
-]
-
+     ]
 
 results = []
 for name, model in models:
     results.append(evaluate_model(model, X_train, y_train, X_test, y_test, model_name=name))
-
 
 df_results = pd.DataFrame(results)
 display_df = pd.DataFrame()
@@ -113,14 +105,12 @@ plt.legend()
 plt.grid(True)
 plt.show()
 
-
 plt.figure(figsize=(8, 5))
 sns.barplot(x=df_results["Model"], y=df_results["Training Time"], palette="coolwarm")
 plt.xticks(rotation=15)
 plt.ylabel("Seconds")
 plt.title("Training Time per Model")
 plt.show()
-
 
 for index, row in df_results.iterrows():
     cm = row["Confusion Matrix"]
