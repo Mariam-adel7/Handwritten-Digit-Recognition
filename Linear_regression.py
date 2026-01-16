@@ -37,8 +37,7 @@ acc = accuracy_score(y_test, y_pred)
 
 idx = random.randint(0, X_test.shape[0] - 1)
 img = X_test[idx]
-
-img_original = pca.inverse_transform(img).reshape(28, 28)
+img_original = pca.inverse_transform(img.reshape(1, -1)).reshape(28, 28)
 
 print("\n==============================")
 print(f"Linear Regression (OvA) Test Accuracy: {acc*100:.2f}%")
@@ -50,3 +49,4 @@ plt.imshow(img_original, cmap='gray')
 plt.title(f"Predicted: {y_pred[idx]} | True: {y_test[idx]}")
 plt.axis('off')
 plt.show()
+
