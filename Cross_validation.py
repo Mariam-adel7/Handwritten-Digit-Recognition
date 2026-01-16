@@ -31,15 +31,17 @@ class OVA_LinearRegression:
 
 models = {
     "MLP Neural Network": MLPClassifier(
-        hidden_layer_sizes=(256, 128),
-        activation='relu',
-        learning_rate_init=0.001,
-        max_iter=1500,
-        batch_size=64,
-        random_state=42,
-        early_stopping=True
+    hidden_layer_sizes=(256,128,64),
+    activation='relu',
+    learning_rate='adaptive',
+    learning_rate_init=0.001,
+    alpha=0.001,
+    max_iter=1500,
+    batch_size=32,
+    random_state=42,
+    early_stopping=True
     ),
-    "Logistic Regression": LogisticRegression(max_iter=1000, random_state=42),
+    "Logistic Regression": LogisticRegression(max_iter=2000, random_state=42),
     "OVA Linear Regression": OVA_LinearRegression()
 }
 
