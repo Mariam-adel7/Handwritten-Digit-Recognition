@@ -8,9 +8,8 @@ import random
 print("Training Logistic Regression...")
 
 model = LogisticRegression(
-    solver='lbfgs',
-    max_iter=1000, 
-    random_state=42
+    max_iter=2000,
+    random_state=42,
 )
 
 model.fit(X_train, y_train)
@@ -24,8 +23,7 @@ print("==============================\n")
 
 idx = random.randint(0, X_test.shape[0] - 1)
 img = X_test[idx]
-
-img_original = pca.inverse_transform(img).reshape(28, 28)
+img_original = pca.inverse_transform(img.reshape(1, -1)).reshape(28, 28)
 
 print(f"Predicted: {y_pred[idx]} | True: {y_test[idx]}\n")
 
@@ -33,3 +31,4 @@ plt.imshow(img_original, cmap='gray')
 plt.title(f"Predicted: {y_pred[idx]} | True: {y_test[idx]}")
 plt.axis('off')
 plt.show()
+
