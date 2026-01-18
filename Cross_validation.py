@@ -56,8 +56,7 @@ for name, model in models.items():
 
         acc = accuracy_score(y[test_idx], y_pred)
         prec, rec, f1, _ = precision_recall_fscore_support(
-            y_train[test_idx], y_pred, average='macro', zero_division=0
-        )
+            y_train[test_idx], y_pred, average='macro', zero_division=0)
         metrics_folds.append([acc, prec, rec, f1])
 
     metrics_array = np.array(metrics_folds)
