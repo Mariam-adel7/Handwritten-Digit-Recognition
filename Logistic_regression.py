@@ -17,9 +17,7 @@ model.fit(X_train, y_train)
 y_pred = model.predict(X_test)
 acc = accuracy_score(y_test, y_pred)
 
-print("\n==============================")
 print(f"Logistic Regression Test Accuracy: {acc*100:.2f}%")
-print("==============================\n")
 
 idx = random.randint(0, X_test.shape[0] - 1)
 img = X_test[idx]
@@ -31,4 +29,5 @@ plt.imshow(img_original, cmap='gray')
 plt.title(f"Predicted: {y_pred[idx]} | True: {y_test[idx]}")
 plt.axis('off')
 plt.show()
+
 
