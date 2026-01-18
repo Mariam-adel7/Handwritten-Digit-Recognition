@@ -9,13 +9,13 @@ import matplotlib.pyplot as plt
 print("Training Neural Network...")
 
 model = MLPClassifier(
-    hidden_layer_sizes=(256,128,64),
+    hidden_layer_sizes=(256, 128, 64),
     activation='relu',
     learning_rate='adaptive',
     learning_rate_init=0.001,
-    alpha=0.001,
+    alpha=0.01,
     max_iter=1500,
-    batch_size=32,
+    batch_size=64,
     random_state=42,
     early_stopping=True
 )
@@ -34,3 +34,4 @@ plt.imshow(img_original, cmap='gray')
 plt.title(f"Predicted: {y_pred[idx]} | True: {y_test[idx]}")
 plt.axis('off')
 plt.show()
+
