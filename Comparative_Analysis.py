@@ -92,19 +92,6 @@ display_df["Training Time (s)"] = df_results["Training Time"].round(3)
 print("\n===== Comparative Analysis Table =====\n")
 print(display_df.to_string(index=False, justify="center"))
 
-metrics = ["Accuracy", "Precision", "Recall", "F1-score"]
-plt.figure(figsize=(10, 6))
-for metric in metrics:
-    plt.plot(df_results["Model"], df_results[metric], marker="o", label=metric)
-
-plt.xticks(rotation=15)
-plt.ylabel("Score")
-plt.title("Model Performance Comparison")
-plt.ylim(0, 1)
-plt.legend()
-plt.grid(True)
-plt.show()
-
 plt.figure(figsize=(8, 5))
 sns.barplot(x=df_results["Model"], y=df_results["Training Time"], palette="coolwarm")
 plt.xticks(rotation=15)
