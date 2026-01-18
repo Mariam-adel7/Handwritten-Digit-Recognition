@@ -60,13 +60,13 @@ def evaluate_model(model, X_train, y_train, X_test, y_test, model_name="Model"):
 
 models = [
     ( "MLP Neural Network", MLPClassifier(
-    hidden_layer_sizes=(256,128,64),
+    hidden_layer_sizes=(256, 128, 64),
     activation='relu',
     learning_rate='adaptive',
     learning_rate_init=0.001,
-    alpha=0.001,
+    alpha=0.01,
     max_iter=1500,
-    batch_size=32,
+    batch_size=64,
     random_state=42,
     early_stopping=True
     )),
@@ -107,3 +107,4 @@ for index, row in df_results.iterrows():
     plt.xlabel("Predicted")
     plt.ylabel("Actual")
     plt.show()
+
