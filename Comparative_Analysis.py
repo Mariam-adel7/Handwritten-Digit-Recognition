@@ -67,7 +67,7 @@ models = [
     alpha=0.01,
     max_iter=1500,
     batch_size=64,
-    random_state=42,
+    random_state=0,
     early_stopping=True
     )),
     ("Logistic Regression",
@@ -107,4 +107,5 @@ for index, row in df_results.iterrows():
     plt.xlabel("Predicted")
     plt.ylabel("Actual")
     plt.show()
+
 
