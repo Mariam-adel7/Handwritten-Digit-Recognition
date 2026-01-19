@@ -38,7 +38,7 @@ models = {
     alpha=0.01,
     max_iter=1500,
     batch_size=64,
-    random_state=42,
+    random_state=0,
     early_stopping=True
 ),
     "Logistic Regression": LogisticRegression(max_iter=2000, random_state=42),
@@ -109,4 +109,5 @@ plt.ylim(0, 1.0)
 plt.xticks(rotation=15, ha='right')
 plt.tight_layout()
 plt.show()
+
 
