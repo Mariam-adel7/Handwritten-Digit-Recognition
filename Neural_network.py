@@ -16,7 +16,7 @@ model = MLPClassifier(
     alpha=0.01,
     max_iter=1500,
     batch_size=64,
-    random_state=42,
+    random_state=0,
     early_stopping=True
 )
 
@@ -34,4 +34,5 @@ plt.imshow(img_original, cmap='gray')
 plt.title(f"Predicted: {y_pred[idx]} | True: {y_test[idx]}")
 plt.axis('off')
 plt.show()
+
 
