@@ -5,7 +5,7 @@ This project implements a handwritten-digit recognition system (digits 0–9) us
 Source: https://didadataset.github.io/DIDA/
 
 The project includes:  
-- Data preprocessing (`pre_processing.py`)  
+- Data preprocessing (`preprocessing.py`)  
 - Model training using various methods:  
   - One vs all Linear Regression (`Linear_regression.py`)  
   - Logistic Regression (`Logistic_regression.py`)  
